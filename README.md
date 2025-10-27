@@ -31,4 +31,7 @@ If there are module errors, probably install the stuff in package.json with a ma
 - The people who logged in with google should be able to do something on our site (?)
 - They should be granted a session (see `req.session.userId = user.id`)
 
+#### Be able to sign out as google users
+- https://developers.google.com/identity/gsi/web/guides/automatic-sign-in-sign-out#without-fedcm
+
 #### Style the site :)
