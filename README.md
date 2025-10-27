@@ -21,7 +21,7 @@ If there are module errors, probably install the stuff in package.json with a ma
 
 #### Verify the google login:
 - See the line `app.post("/googlelogin", (req, res) => { ... `
-- This line is sent by the client on our website after they successfully logged in on google
+- The request in this line is sent by the client on our website after they successfully logged in on google
 - The data that google sent us is in the request variable
 - Tutorial by google: https://developers.google.com/identity/gsi/web/guides/verify-google-id-token#node.js
 - At the moment only whitelisted test users can log in, so I/you have to add your email in the google cloud console
