@@ -33,5 +33,5 @@ If there are module errors, probably install the stuff in package.json with a ma
 
 #### Style the site :)
 
-##### Optional: Minimize the amount of errors google throws :')
+#### Optional: Minimize the amount of errors google throws :')
 - while also minimizing what our contentSecurityPolicy allows
