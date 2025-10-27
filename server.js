@@ -90,6 +90,7 @@ app.post("/register", async (req, res) => {
       return res.status(400).json({ error: "Missing username, email, or password" })
     }
 
+    // this is commented out for testing puposes
     /*if (username.length < 3 || password.length < 6) {
       return res.status(400).json({ error: "Username or password too short" })
     }*/
