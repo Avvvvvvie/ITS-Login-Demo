@@ -32,3 +32,6 @@ If there are module errors, probably install the stuff in package.json with a ma
 - They should be granted a session (see `req.session.userId = user.id`)
 
 #### Style the site :)
+
+##### Optional: Minimize the amount of errors google throws :')
+- while also minimizing what our contentSecurityPolicy allows
