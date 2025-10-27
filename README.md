@@ -1,4 +1,4 @@
-### How to set up
+### How to set up:
 
 Create a .env file with this content:
 
