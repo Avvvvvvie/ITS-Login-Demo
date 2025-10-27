@@ -1,4 +1,4 @@
-### How to set up
+### How to set up:
 
 Create a .env file with this content:
 
@@ -21,7 +21,7 @@ If there are module errors, probably install the stuff in package.json with a ma
 
 #### Verify the google login:
 - See the line `app.post("/googlelogin", (req, res) => { ... `
-- This line is sent by the client on our website after they successfully logged in on google
+- The request in this line is sent by the client on our website after they successfully logged in on google
 - The data that google sent us is in the request variable
 - Tutorial by google: https://developers.google.com/identity/gsi/web/guides/verify-google-id-token#node.js
 - At the moment only whitelisted test users can log in, so I/you have to add your email in the google cloud console
@@ -31,7 +31,10 @@ If there are module errors, probably install the stuff in package.json with a ma
 - The people who logged in with google should be able to do something on our site (?)
 - They should be granted a session (see `req.session.userId = user.id`)
 
-#### Be able to sign out as google users
+#### Be able to sign out as google users§
 - https://developers.google.com/identity/gsi/web/guides/automatic-sign-in-sign-out#without-fedcm
 
 #### Style the site :)
+
+#### Optional: Minimize the amount of errors google throws :')
+- while also minimizing what our contentSecurityPolicy allows
