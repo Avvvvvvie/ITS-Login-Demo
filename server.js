@@ -21,7 +21,7 @@ app.use(express.json({ limit: "1mb" }))
 app.use(express.urlencoded({ extended: true, limit: "1mb" })) // For form submissions
 app.use(
   session({
-    secret: "super-secret-key", // change this in production
+    secret: SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
   })
