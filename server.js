@@ -65,8 +65,8 @@ function requireLogin(req, res, next) {
 }
 
 app.get("/", (req, res) => {
-  res.render("index", { nonce: res.locals.nonce }, function (err, html) {
-    if (err) {
+  res.render("index", { nonce: res.locals.nonce }, function (error, html) {
+    if (error) {
       res.status(500).send()
     }
     else {
@@ -99,8 +99,8 @@ app.post("/register", async (req, res) => {
    db.get(
     "SELECT username, email FROM users WHERE username = ? OR email = ?",
     [username, email],
-    async (err, user) => {
-      if (err) return res.status(500).json({ error: "Database lookup failed" })
+    async (error, user) => {
+      if (error) return res.status(500).json({ error: "Database lookup failed" })
       if (user) {
         if (user.username === username)
           return res.status(409).json({ error: "Username already exists" })
@@ -113,9 +113,9 @@ app.post("/register", async (req, res) => {
       db.run(
         "INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)",
         [username, email, password_hash],
-        function (err) {
-          if (err) {
-            console.error("Database insert error:", err)
+        function (error) {
+          if (error) {
+            console.error("Database insert error:", error)
             return res.status(500).json({ error: "Database insert failed" })
           }
 
@@ -128,8 +128,8 @@ app.post("/register", async (req, res) => {
         }
       )
     })
-  } catch (err) {
-    console.error("Registration error:", err)
+  } catch (error) {
+    console.error("Registration error:", error)
     res.status(500).json({ error: "Unexpected server error" })
   }
 })
@@ -150,16 +150,16 @@ app.post("/login", (req, res) => {
     return res.status(400).json({ error: "Invalid request body" })
   }
 
-  const { username, password } = req.body
-  if (!username || !password) {
+  const { email, password } = req.body
+  if (!email || !password) {
     return res.status(400).json({ error: "Missing required fields" })
   }
 
-  db.get("SELECT * FROM users WHERE username = ?", [username], async (err, user) => {
-    if (!user) return res.status(400).json({ error: "Invalid username or password"})
+  db.get("SELECT * FROM users WHERE email = ?", [email], async (error, user) => {
+    if (!user) return res.status(400).json({ error: "Invalid email or password"})
 
     const match = await bcrypt.compare(password, user.password_hash)
-    if (!match) return res.status(400).json({ error: "Invalid username or password"})
+    if (!match) return res.status(400).json({ error: "Invalid password"})
 
     req.session.userId = user.id
     return res.status(201).json({
@@ -181,35 +181,53 @@ app.get("/logout", (req, res) => {
 })
 
 app.get("/profiledata", requireLogin, (req, res) => {
-  db.get("SELECT username, email, created_at FROM users WHERE id = ?", [req.session.userId], (err, user) => {
-    if (err) return res.status(500).json({ error: "Database error" })
+  db.get("SELECT username, email, created_at FROM users WHERE id = ?", [req.session.userId], (error, user) => {
+    if (error) return res.status(500).json({ error: "Database error" })
     res.json(user)
   })
 })
 
 app.post('/profiledata', requireLogin, (req, res) => {
-  if (!req.body || typeof req.body !== "object") {
-    return res.status(400).json({ error: "Invalid request body" })
-  }
+  try {
+    if (!req.body || typeof req.body !== "object") {
+      return res.status(400).json({ error: "Invalid request body" })
+    }
 
-  const { username, email } = req.body
-  if (!username || !email) {
-    return res.status(400).json({ error: "Missing required fields" })
-  }
+    const { username, email } = req.body
+    if (!username || !email) {
+      return res.status(400).json({ error: "Missing required fields" })
+    }
 
-  db.get("UPDATE users SET username = ?, email = ?  WHERE id = ?", [username, email, req.session.userId], (err, user) => {
-    if (err) return res.status(500).json({ error: "Database error" })
-    return res.status(201).json({
-        success: true,
-        message: "Updated user data successfully"
+    // Check if username/email already exists for somene lese
+    db.get(
+      "SELECT username, email FROM users WHERE (username = ? OR email = ?) AND id != ?",
+      [username, email, req.session.userId],
+      async (error, user) => {
+        if (error) return res.status(500).json({ error: "Database lookup failed" })
+        if (user) {
+          if (user.username === username)
+            return res.status(409).json({ error: "Username already exists" })
+          if (user.email === email)
+            return res.status(409).json({ error: "Email already registered" })
+        }
+        db.get("UPDATE users SET username = ?, email = ?  WHERE id = ?", [username, email, req.session.userId], (error, user) => {
+          if (error) return res.status(500).json({ error: "Database error" })
+          return res.status(201).json({
+              success: true,
+              message: "Updated user data successfully"
+            })
+        })
       })
-  })
+    } catch (error) {
+      console.error("Registration error:", error)
+      res.status(500).json({ error: "Unexpected server error" })
+    }
 })
 
 // Serve profile page (protected)
 app.get("/profile", requireLogin, (req, res) => {
-  res.render("profile", { nonce: res.locals.nonce }, function (err, html) {
-    if (err) {
+  res.render("profile", { nonce: res.locals.nonce }, function (error, html) {
+    if (error) {
       res.status(500).send()
     }
     else {

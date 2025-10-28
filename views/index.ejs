@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="index.css">
+        <link rel="stylesheet" href="main.css">
         <script src="utils.js"></script>
         <script src="index.js"></script>
         <script nonce="<%= nonce %>" src="https://accounts.google.com/gsi/client" async></script>
     </head>
     <body>
-        <main>
-            <div class="container">
-                
+        <main class="column">
+            <form id="login" class="column">
                 <div id="g_id_onload"
                     data-client_id="1010536116065-j0hv8210j5eer4apjg8tsv9dhof5rj44.apps.googleusercontent.com"
                     data-context="signin"
@@ -27,26 +26,29 @@
                     data-size="large"
                     data-logo_alignment="left">
                 </div>
-
-                <form id="login">
-                    <div>
-                        <label for="username">Username</label>
-                        <input type="text" id="username">
-                    </div>
-                    <div class="emailField hidden">
-                        <label for="email">Email</label>
-                        <input type="text" id="email">
-                    </div>
-                    <div>
-                        <label for="password">Password</label>
-                        <input type="password" id="password">
-                    </div>
-                    <button type="submit">Submit</button>
-                    <button type="button" id="loginButton" class="hidden">Login</button>
+                <div class="usernameField hidden">
+                    <label for="username">Username</label>
+                    <input type="text" id="username">
+                </div>
+                <div>
+                    <label for="email">Email</label>
+                    <input type="text" id="email">
+                </div>
+                <div>
+                    <label for="password">Password</label>
+                    <input type="password" id="password">
+                </div>
+                <button type="submit" class="center">Submit</button>
+                <div id="error"></div>
+                <div class="hidden column">
+                    Already have an account?
+                    <button type="button" id="loginButton">Login</button>
+                </div>
+                <div class="column">
+                    No account yet?
                     <button type="button" id="registerButton">Register</button>
-                    <div id="error"></div>
-                </form>
-            </div>
+                </div>
+            </form>
         </main>
     </body>
 </html>

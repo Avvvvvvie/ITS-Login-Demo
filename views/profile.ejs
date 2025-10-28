@@ -2,28 +2,24 @@
 <html>
     <body>
         <head>
-            <link rel="stylesheet" href="profile.css">
-            <script src="https://apis.google.com/js/platform.js" async defer></script>
-            <meta name="google-signin-client_id" content="1010536116065-j0hv8210j5eer4apjg8tsv9dhof5rj44.apps.googleusercontent.com">
+            <link rel="stylesheet" href="main.css">
             <script src="utils.js"></script>
             <script src="profile.js"></script>
         </head>
-        <main>
-            <div class="container">
-                <form id="profiledata">
-                    <div>
-                        <label for="username">Username</label>
-                        <input type="text" id="username">
-                    </div>
-                    <div class="emailField">
-                        <label for="email">Email</label>
-                        <input type="text" id="email">
-                    </div>
-                    <button type="submit">Update</button>
-                    <button type="button" id="logout">Logout</button>
-                    <div id="error"></div>
-                </form>
-            </div>
+        <main class="column">
+            <form id="profiledata" class="column">
+                <div>
+                    <label for="username">Username</label>
+                    <input type="text" id="username">
+                </div>
+                <div class="emailField">
+                    <label for="email">Email</label>
+                    <input type="text" id="email">
+                </div>
+                <button type="submit">Update</button>
+                <button type="button" id="logout">Logout</button>
+                <div id="error"></div>
+            </form>
         </main>
     </body>
 </html>

@@ -4,32 +4,32 @@ window.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('login')
     const registerButton = document.getElementById('registerButton')
     const loginButton = document.getElementById('loginButton')
-    const emailField = document.querySelector('.emailField')
+    const usernameField = document.querySelector('.usernameField')
 
     loginForm?.addEventListener('submit', function (e) {
         e.preventDefault()
-        const username = loginForm.querySelector('#username').value
+        const email = loginForm.querySelector('#email').value
         const password = loginForm.querySelector('#password').value
-        if(!username || (typeof username !== 'string')) return showError("Username needed")
+        if(!email || (typeof email !== 'string')) return showError("Email needed")
         if(!password || (typeof password !== 'string')) return showError("Password needed")
         if(loginMode === 'login') {
-            login(username, password)
+            login(email, password)
         } else {
-            const email = loginForm.querySelector('#email').value
-            if(!email) return showError("Email needed")
+            const username = loginForm.querySelector('#username').value
+            if(!username) return showError("usrename needed")
             register(username, email, password)
         }
     });
     registerButton?.addEventListener('click', function () {
         loginMode = 'register'
-        registerButton.classList.add('hidden')
-        loginButton.classList.remove('hidden')
-        emailField.classList.remove('hidden')
+        registerButton.parentElement.classList.add('hidden')
+        loginButton.parentElement.classList.remove('hidden')
+        usernameField.classList.remove('hidden')
     });
     loginButton?.addEventListener('click', function () {
-        registerButton.classList.remove('hidden')
-        loginButton.classList.add('hidden')
-        emailField.classList.add('hidden')
+        registerButton.parentElement.classList.remove('hidden')
+        loginButton.parentElement.classList.add('hidden')
+        usernameField.classList.add('hidden')
     });
 });
 
@@ -62,12 +62,12 @@ async function register(username, email, password) {
   }
 }
 
-async function login(username, password) {
+async function login(email, password) {
   try {
     const response = await fetch('/login', {
         method: 'POST',
         body: JSON.stringify({
-            username: username, 
+            email: email, 
             password: password
         }),
         headers: {
