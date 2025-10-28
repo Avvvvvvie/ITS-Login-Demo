@@ -140,7 +140,7 @@ app.post("/googlelogin", (req, res) => {
   }
 
   const {client_id, credential} = req.body
-  if (!username || !password) {
+  if (!client_id || !credential) {
     return res.status(400).json({ error: "Missing required fields" })
   }
 })
