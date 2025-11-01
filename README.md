@@ -6,6 +6,7 @@ Create a .env file with this content:
 # .env
 SESSION_SECRET=super_long_random_session_secret_here
 PEPPER=some_random_pepper_string_here
+WEB_CLIENT_ID=your_google_client_id
 ```
 
 Start the server with node server.js
@@ -20,19 +21,10 @@ If there are module errors, probably install the stuff in package.json with a ma
 - Go through the lecture slides and lab assignment to check if there is anything else
 
 #### Verify the google login:
-- See the line `app.post("/googlelogin", (req, res) => { ... `
-- The request in this line is sent by the client on our website after they successfully logged in on google
-- The data that google sent us is in the request variable
+- Is it possible to receive a request by google if we are a localhost? (This is only if we want tovVerify the Cross-Site Request Forgery (CSRF) token)
 - Tutorial by google: https://developers.google.com/identity/gsi/web/guides/verify-google-id-token#node.js
 - At the moment only whitelisted test users can log in, so I/you have to add your email in the google cloud console
 - It seems like i could give other google accounts access to the project on the google cloud console
-
-#### Store the google login people?
-- The people who logged in with google should be able to do something on our site (?)
-- They should be granted a session (see `req.session.userId = user.id`)
-
-#### Be able to sign out as google users:
-- https://developers.google.com/identity/gsi/web/guides/automatic-sign-in-sign-out#without-fedcm
 
 #### Style the site :)
 
