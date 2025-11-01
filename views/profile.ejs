@@ -7,6 +7,10 @@
             <script src="profile.js"></script>
         </head>
         <main class="column">
+            <% if(isGoogleUser){ %>
+            You are logged in with your google account that has the id <%= id %>.
+            <button type="button" class="g_id_signout" id="logout">Logout</button>
+            <% } else{ %>  
             <form id="profiledata" class="column">
                 <div>
                     <label for="username">Username</label>
@@ -20,6 +24,7 @@
                 <button type="button" id="logout">Logout</button>
                 <div id="error"></div>
             </form>
+            <% } %>
         </main>
     </body>
 </html>

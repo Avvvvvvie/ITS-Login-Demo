@@ -35,6 +35,7 @@ button {
     padding: 0.5rem 1rem;
     border: 1px black solid;
     border-radius: 0.3rem;
+    cursor: pointer;
 }
 
 button[type=submit] {

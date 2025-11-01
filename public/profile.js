@@ -1,7 +1,8 @@
 window.addEventListener('DOMContentLoaded', () => {
     const profileDataForm = document.getElementById('profiledata')
-    getProfileData()
-    profileDataForm.addEventListener('submit', (e) => {
+    if(profileDataForm) {
+        getProfileData()
+        profileDataForm.addEventListener('submit', (e) => {
         e.preventDefault()
         const username = profileDataForm.querySelector('#username').value
         const email = profileDataForm.querySelector('#email').value
@@ -9,6 +10,7 @@ window.addEventListener('DOMContentLoaded', () => {
         if(!email) return showError("Email needed")
         editProfile(username, email)
     })
+    }
     document.getElementById('logout').addEventListener('click', () => {
         logout()
     })
