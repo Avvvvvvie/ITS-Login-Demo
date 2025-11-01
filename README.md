@@ -21,7 +21,7 @@ If there are module errors, probably install the stuff in package.json with a ma
 - Go through the lecture slides and lab assignment to check if there is anything else
 
 #### Verify the google login:
-- Is it possible to receive a request by google if we are a localhost?
+- Is it possible to receive a request by google if we are a localhost? (This is only if we want tovVerify the Cross-Site Request Forgery (CSRF) token)
 - Tutorial by google: https://developers.google.com/identity/gsi/web/guides/verify-google-id-token#node.js
 - At the moment only whitelisted test users can log in, so I/you have to add your email in the google cloud console
 - It seems like i could give other google accounts access to the project on the google cloud console
