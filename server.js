@@ -180,7 +180,6 @@ app.post("/googlelogin", (req, res) => {
       // If the request specified a Google Workspace domain:
       // const domain = payload['hd'];
 
-      // TODO: Login on our side as well (save the userid)
       db.get(
       "SELECT id FROM googleusers WHERE id = ?",
       [userid],
