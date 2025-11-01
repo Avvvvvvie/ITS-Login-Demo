@@ -136,18 +136,9 @@ app.post("/register", async (req, res) => {
   }
 })
 
-app.post("/googlelogin", (req, res) => {
-  try {
-    if (!req.body || typeof req.body !== "object" || !req.body.googleUser) {
-      return res.status(400).json({ error: "Invalid request body" })
-    }
-
-    const {client_id, credential } = req.body.googleUser
-    if (!client_id || !credential) {
-      return res.status(400).json({ error: "Missing required fields" })
-    }
-
-    /* this only works if we have a public server that google can send a request to
+/* this only works if we have a public server that google can send a request to
+app.post("/googleverification", (req, res) => {
+     
     if (!req.cookies.g_csrf_token) {
       return res.status(400).json({ error: "No CSRF token in Cookie." })
     }
@@ -158,7 +149,20 @@ app.post("/googlelogin", (req, res) => {
 
     if (req.cookies.g_csrf_token != req.body.g_csrf_token) {
       return res.status(400).json({ error: "Failed to verify double submit cookie." })
-    }*/
+  }
+})
+*/
+
+app.post("/googlelogin", (req, res) => {
+  try {
+    if (!req.body || typeof req.body !== "object" || !req.body.googleUser) {
+      return res.status(400).json({ error: "Invalid request body" })
+    }
+
+    const {client_id, credential } = req.body.googleUser
+    if (!client_id || !credential) {
+      return res.status(400).json({ error: "Missing required fields" })
+    }
 
 
     const client = new OAuth2Client();
