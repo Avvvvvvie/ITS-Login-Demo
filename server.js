@@ -2,6 +2,7 @@ const dotenv = require('dotenv')
 dotenv.config();
 const SESSION_SECRET = process.env.SESSION_SECRET || 'dev-secret'
 const PEPPER = process.env.PEPPER || ''
+const WEB_CLIENT_ID = process.env.WEB_CLIENT_ID || ''
 
 const express = require("express")
 const session = require("express-session")
@@ -10,6 +11,7 @@ const bcrypt = require("bcrypt")
 const path = require("path")
 const db = require("./database")
 const crypto = require('crypto')
+const {OAuth2Client} = require('google-auth-library');
 
 const app = express()
 const PORT = 8000
@@ -139,10 +141,55 @@ app.post("/googlelogin", (req, res) => {
     return res.status(400).json({ error: "Invalid request body" })
   }
 
-  const {client_id, credential} = req.body
+  console.log(req.body)
+
+  const {client_id, credential } = req.body
   if (!client_id || !credential) {
     return res.status(400).json({ error: "Missing required fields" })
   }
+
+  const csrf_token_cookie = req.cookies.g_csrf_token
+  if (!csrf_token_cookie) {
+    return res.status(400).json({ error: "No CSRF token in Cookie." })
+  }
+
+  const csrf_token_body = req.body.g_csrf_token
+  if (!csrf_token_cookie) {
+    return res.status(400).json({ error: "No CSRF token in post body." })
+  }
+
+
+  if (csrf_token_body != csrf_token_cookie) {
+    return res.status(400).json({ error: "Failed to verify double submit cookie." })
+  }
+
+
+  const client = new OAuth2Client();
+  async function verify(token) {
+    const ticket = await client.verifyIdToken({
+        idToken: token,
+        audience: WEB_CLIENT_ID,  // Specify the WEB_CLIENT_ID of the app that accesses the backend
+        // Or, if multiple clients access the backend:
+        //[WEB_CLIENT_ID_1, WEB_CLIENT_ID_2, WEB_CLIENT_ID_3]
+    });
+    const payload = ticket.getPayload();
+    // This ID is unique to each Google Account, making it suitable for use as a primary key
+    // during account lookup. Email is not a good choice because it can be changed by the user.
+    const userid = payload['sub'];
+    // If the request specified a Google Workspace domain:
+    // const domain = payload['hd'];
+
+    // TODO: Login on our side as well (save the userid)
+  }
+
+  verify(credential).catch((error) => {
+    return res.status(400).json({ error: "Failed to verify double submit cookie." })
+  }).finally(() => {
+    return res.status(200).json({
+      success: "Google Login verified successfully",
+      redirect: req.get('host') + '/profile'
+    })
+  })
 })
 
 app.post("/login", (req, res) => {

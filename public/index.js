@@ -105,6 +105,7 @@ window.onSignIn = async (googleUser) => {
     let result;
     try {
         result = await response.json()
+        console.log(result)
     } catch (error) {
         if(!response.ok) throw new Error(response.statusText)
         throw new Error()
