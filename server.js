@@ -2,6 +2,7 @@ const dotenv = require('dotenv')
 dotenv.config();
 const SESSION_SECRET = process.env.SESSION_SECRET || 'dev-secret'
 const PEPPER = process.env.PEPPER || ''
+const SALT_ROUNDS = 10
 const WEB_CLIENT_ID = process.env.WEB_CLIENT_ID || ''
 
 const express = require("express")
@@ -100,7 +101,7 @@ app.post("/register", async (req, res) => {
       }
 
       // if user does not exist already the new user can be added
-      const password_hash = await bcrypt.hash(password, 10)
+      const password_hash = await bcrypt.hash(password + PEPPER, SALT_ROUNDS)
       db.run(
         "INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)",
         [username, email, password_hash],
@@ -222,7 +223,7 @@ app.post("/login", (req, res) => {
   db.get("SELECT * FROM users WHERE email = ?", [email], async (error, user) => {
     if (!user) return res.status(400).json({ error: "Invalid email or password"})
 
-    const match = await bcrypt.compare(password, user.password_hash)
+    const match = await bcrypt.compare(password + PEPPER, user.password_hash)
     if (!match) return res.status(400).json({ error: "Invalid password"})
 
     req.session.userId = user.id
