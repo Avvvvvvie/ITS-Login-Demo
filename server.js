@@ -35,8 +35,7 @@ app.use((req, res, next) => {
 
 app.use(helmet({
   crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" },
-  crossOriginEmbedderPolicy: false,
-  /*referrerPolicy: {policy: "referrer-when-downgrade"}*/
+  crossOriginEmbedderPolicy: false
 }))
 app.use((req, res, next) => {
   helmet.contentSecurityPolicy({
