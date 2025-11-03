@@ -93,11 +93,6 @@ app.post("/register", async (req, res) => {
       });
     }
 
-    // this is commented out for testing puposes
-    /*if (username.length < 3 || password.length < 6) {
-      return res.status(400).json({ error: "Username or password too short" })
-    }*/
-
     // Check if username already exists
    db.get(
     "SELECT username, email FROM users WHERE username = ? OR email = ?",
