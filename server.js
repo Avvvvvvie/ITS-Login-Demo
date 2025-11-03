@@ -33,8 +33,6 @@ app.use((req, res, next) => {
   next();
 });
 
-const sites = ['translate.googleapis.com', 'https://accounts.google.com', 'https://apis.google.com', 'https://www.gstatic.com']
-
 app.use(helmet({
   crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" },
   crossOriginEmbedderPolicy: false,
@@ -44,18 +42,10 @@ app.use((req, res, next) => {
   helmet.contentSecurityPolicy({
     useDefaults: true,
     directives: {
-      defaultSrc: ["'self'", ...sites],
-      scriptSrc: [
-        "'self'",
-        `'nonce-${res.locals.nonce}'`,
-        ...sites
-      ],
-      frameSrc: ["'self'", ...sites],
-      connectSrc: [
-        "'self'",
-        ...sites
-      ],
-      imgSrc: ["'self'", "https://lh3.googleusercontent.com", "data:", ...sites],
+      connectSrc: ["'self'", 'https://accounts.google.com/gsi/'],
+      scriptSrc: ["'self'",`'nonce-${res.locals.nonce}'`,'https://accounts.google.com/gsi/client'],
+      frameSrc: ["'self'", 'https://accounts.google.com/gsi/'],
+      connectSrc: ["'self'",'https://accounts.google.com/gsi/']
     },
   })(req, res, next);
 })
