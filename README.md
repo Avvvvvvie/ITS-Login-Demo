@@ -6,6 +6,18 @@ Implement a web application with the following functionality:
 - Passwords shall be stored securely
 - A user can view and modify his Nickname
 
+### Implemented Security Measures
+- Content Security Policy
+- Cross Origin Opener Policy
+- Hashing, Salting and Peppering
+- Public/Private Resources
+- Nonce for inline javascript
+- Password validation to enforce strong passwords
+- .env file for sensitive data
+- Google sign in
+- Input sanitazation
+- Strong error handling to prevent server information to appear on the frontend
+
 ### How to set up:
 
 Create a .env file with this content:
