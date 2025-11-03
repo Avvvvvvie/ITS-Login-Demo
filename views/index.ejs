@@ -3,6 +3,7 @@
     <head>
         <link rel="stylesheet" href="main.css">
         <script src="utils.js"></script>
+        <script src="/passwordRules.js" nonce="<%= nonce %>"></script>
         <script src="index.js"></script>
         <script nonce="<%= nonce %>" src="https://accounts.google.com/gsi/client" async></script>
     </head>
@@ -37,6 +38,15 @@
                 <div>
                     <label for="password">Password</label>
                     <input type="password" id="password">
+
+                    <ul id="rules" class="hidden">
+                        <li id="length">8–16 Zeichen</li>
+                        <li id="upper">Mind. ein Großbuchstabe (A–Z)</li>
+                        <li id="lower">Mind. ein Kleinbuchstabe (a–z)</li>
+                        <li id="digit">Mind. eine Zahl (0–9)</li>
+                        <li id="special">Mind. ein Sonderzeichen (!, @, #, ...)</li>
+                        <li id="nowhite">Keine Leerzeichen</li>
+                    </ul>
                 </div>
                 <button type="submit" class="center">Submit</button>
                 <div id="error"></div>

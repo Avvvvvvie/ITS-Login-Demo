@@ -5,6 +5,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const registerButton = document.getElementById('registerButton')
     const loginButton = document.getElementById('loginButton')
     const usernameField = document.querySelector('.usernameField')
+    const passwordInput = document.getElementById("password");
 
     loginForm?.addEventListener('submit', function (e) {
         e.preventDefault()
@@ -22,15 +23,44 @@ window.addEventListener('DOMContentLoaded', () => {
     });
     registerButton?.addEventListener('click', function () {
         loginMode = 'register'
+        if (passwordInput) {
+            passwordInput.value = '';
+        }
         registerButton.parentElement.classList.add('hidden')
         loginButton.parentElement.classList.remove('hidden')
         usernameField.classList.remove('hidden')
+        document.getElementById('rules').classList.remove('hidden')
     });
     loginButton?.addEventListener('click', function () {
+        loginMode = 'login'
         registerButton.parentElement.classList.remove('hidden')
         loginButton.parentElement.classList.add('hidden')
         usernameField.classList.add('hidden')
+        const ruleList = document.getElementById('rules');
+        ruleList?.classList.add('hidden');
+
+        if (passwordInput) {
+        passwordInput.style.borderColor = '';      // Rahmen zurücksetzen
+        passwordInput.value = '';                  // optional Feld leeren
+        document.querySelectorAll('#rules li')
+            .forEach(li => { li.style.color = ''; }); // optionale Farbrücksetzung
+        }
     });
+
+    if (passwordInput) {
+        passwordInput.addEventListener('input', () => {
+            if (loginMode !== 'register') {
+                passwordInput.style.borderColor = '';
+                return;
+            }
+        const { results } = window.validatePassword(passwordInput.value);
+        Object.entries(results).forEach(([key, passed]) => {
+            const li = document.getElementById(key);
+            if (li) li.style.color = passed ? 'green' : 'red';
+        });
+        passwordInput.style.borderColor = Object.values(results).every(Boolean) ? 'green' : 'red';
+    });
+    }
 });
 
 async function register(username, email, password) {

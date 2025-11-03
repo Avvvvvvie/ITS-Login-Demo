@@ -4,6 +4,7 @@ const SESSION_SECRET = process.env.SESSION_SECRET || 'dev-secret'
 const PEPPER = process.env.PEPPER || ''
 const SALT_ROUNDS = 10
 const WEB_CLIENT_ID = process.env.WEB_CLIENT_ID || ''
+const { validatePassword } = require('./public/passwordRules');
 
 const express = require("express")
 const session = require("express-session")
@@ -80,6 +81,16 @@ app.post("/register", async (req, res) => {
     const { username, email, password } = req.body
     if (!username || !email || !password) {
       return res.status(400).json({ error: "Missing username, email, or password" })
+    }
+
+    const pw = validatePassword(password);
+    if (!pw.valid) {
+      return res.status(400).json({
+        success: false,
+        error: "Password does not meet requirements",
+        details: pw.results,
+        missing: pw.missing
+      });
     }
 
     // this is commented out for testing puposes
