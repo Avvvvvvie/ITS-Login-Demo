@@ -77,6 +77,8 @@ async function editProfile(username, email) {
     }
     if (!result.success) {
         throw new Error(result.error)
+    } else {
+        showSuccess(result.message)
     }
   } catch (error) {
     showError(error.message || 'Registration failed. Please try again.')
