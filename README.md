@@ -1,7 +1,7 @@
 ### Task
 Implement a web application with the following functionality:
 - User Registration, Login/Logout functionality
-- User can select whether he wants to create an account or whether he wants to use a social login provider
+- User can select whether they wantsto create an account or whether they want to use a social login provider
 - Storage and modification of a nickname per user.
 - Passwords shall be stored securely
 - A user can view and modify his Nickname
