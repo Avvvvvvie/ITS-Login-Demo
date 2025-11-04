@@ -4,7 +4,7 @@ Implement a web application with the following functionality:
 - User can select whether they wantsto create an account or whether they want to use a social login provider
 - Storage and modification of a nickname per user.
 - Passwords shall be stored securely
-- A user can view and modify his Nickname
+- A user can view and modify their Nickname
 
 ### Implemented Security Measures
 - Content Security Policy
